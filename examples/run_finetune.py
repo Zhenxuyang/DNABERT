@@ -979,8 +979,43 @@ def main():
     parser.add_argument("--server_ip", type=str, default="", help="For distant debugging.")
     parser.add_argument("--server_port", type=str, default="", help="For distant debugging.")
 
+    '''
+    debug
+    '''
 
-    args = parser.parse_args()
+    KMER=6
+    MODEL_PATH="ft/6"
+    # DATA_PATH= "sample_data/ft/{}".format(KMER)
+    DATA_PATH = "data/seq/201/6"
+    OUTPUT_PATH="ft/{}".format(KMER)
+
+    args = parser.parse_args(
+        [
+            "--model_type",  "dna",
+            "--tokenizer_name", "dna{}".format(KMER),
+            "--model_name_or_path", "{}".format(MODEL_PATH),
+            "--task_name", "dnamutation",
+            "--do_train",
+            "--do_eval",
+            "--data_dir", "{}".format(DATA_PATH),
+            "--max_seq_length", "300",
+            "--per_gpu_eval_batch_size", "32",
+            "--per_gpu_train_batch_size", "32",
+            "--learning_rate", "2e-4",
+            "--num_train_epochs", "5.0",
+            "--output_dir", "{}".format(OUTPUT_PATH), 
+            "--evaluate_during_training",
+            "--logging_steps", "100",
+            "--save_steps", "4000",
+            "--warmup_percent", "0.1",
+            "--hidden_dropout_prob", "0.1",
+            "--overwrite_output",
+            "--weight_decay", "0.01",
+            "--n_process", "8"
+        ]
+    )
+
+    # args = parser.parse_args()
 
     if args.should_continue:
         sorted_checkpoints = _sorted_checkpoints(args)

@@ -597,6 +597,8 @@ def Process_mouse(args):
         #     write_file(test_lines, os.path.join(args.file_path, str(kmer), index, "dev.tsv"), kmer, head=True, seq_index=2, label_index=3)
 
 
+def Process_mutation(args):
+    pass
 
 def Process(args):
     if args.output_path != None:

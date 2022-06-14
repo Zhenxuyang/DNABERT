@@ -106,6 +106,8 @@ if _has_sklearn:
         elif task_name == "dnaprom":
             return acc_f1_mcc_auc_pre_rec(preds, labels, probs)
             # return {"acc": simple_accuracy(preds, labels)}
+        elif task_name == "dnamutation":
+            return acc_f1_mcc_auc_pre_rec(preds, labels, probs)
         elif task_name == "dnasplice":
             return acc_f1_mcc_auc_pre_rec(preds, labels, probs)
         elif task_name == "mrpc":

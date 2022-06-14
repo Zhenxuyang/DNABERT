@@ -15,8 +15,10 @@
 # limitations under the License.
 """ GLUE processors and helpers """
 
+from doctest import Example
 import logging
 import os
+from tkinter.messagebox import NO
 
 from ...file_utils import is_tf_available
 from .utils import DataProcessor, InputExample, InputFeatures
@@ -191,6 +193,31 @@ class DnaPromProcessor(DataProcessor):
             examples.append(InputExample(guid=guid, text_a=text_a, text_b=None, label=label))
         return examples
 
+class DnaMutationProcessor(DataProcessor):
+    """Processor for the DNA mutation data"""
+
+    def get_labels(self):
+        return ["0", "1"]
+    
+    def get_train_examples(self, data_dir):
+        logger.info("LOOKING AT {}".format(os.path.join(data_dir, "train.tsv")))
+        return self._create_examples(self._read_tsv(os.path.join(data_dir, "dev.tsv")), "train")
+
+    def get_dev_examples(self, data_dir):
+        return self._create_examples(self._read_tsv(os.path.join(data_dir, "dev.tsv")), "dev")
+
+    def _create_examples(self, lines, set_type):
+        """Creates examples for the training and dev sets"""
+        examples = []
+        for (i, line) in enumerate(lines):
+            if i == 0:
+                continue
+            guid = "%s-%s" % (set_type, i)
+            text_a = line[0]
+            label = line[1]
+            examples.append(InputExample(guid=guid, text_a=text_a, text_b=None, label=label))
+        return examples
+        
 
 class DnaSpliceProcessor(DataProcessor):
     """Processor for the DNA promoter data"""
@@ -607,6 +634,7 @@ glue_tasks_num_labels = {
     "dna690":2,
     "dnapair":2,
     "dnasplice":3,
+    "dnamutation": 2
 }
 
 glue_processors = {
@@ -624,6 +652,7 @@ glue_processors = {
     "dna690": DnaPromProcessor,
     "dnapair": DnaPairProcessor,
     "dnasplice": DnaSpliceProcessor,
+    "dnamutation": DnaMutationProcessor
 }
 
 glue_output_modes = {
@@ -641,4 +670,5 @@ glue_output_modes = {
     "dna690": "classification",
     "dnapair": "classification",
     "dnasplice": "classification",
+    "dnamutation": "classification"
 }
