@@ -2,11 +2,14 @@ import argparse
 import os
 import csv
 
-from process_pretrain_data import get_kmer_sentence, get_kmer_sequence
+from process_pretrain_data import get_kmer_sentence
 
-def Process(args):
+def process(args):
     path = args.file_path
 
+    output_dir = os.path.dirname(args.output_path)
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
     output_f = open(args.output_path, "w+")
     output_w = csv.writer(output_f, delimiter='\t')
     output_w.writerow(['sequence', 'label'])
@@ -46,9 +49,9 @@ def main():
         help="The path of the processed data",
     )
     # args = parser.parse_args()
-    args = parser.parse_args(['--kmer', '6', '--file_path', '../data/seq/201/seq.csv', '--output_path', '../data/seq/201/kmers6.csv'])
+    args = parser.parse_args(['--kmer', '3', '--file_path', '../data/seq/201/seq.csv', '--output_path', '../data/seq/201/3/kmers3.csv'])
 
-    Process(args)
+    process(args)
     
 
     
