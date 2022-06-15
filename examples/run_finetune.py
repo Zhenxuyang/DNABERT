@@ -980,14 +980,56 @@ def main():
     parser.add_argument("--server_port", type=str, default="", help="For distant debugging.")
 
     '''
-    debug
+    finetune debug
     '''
 
+    # KMER=6
+    # MODEL_PATH="ft/6"
+    # MODEL_NAME = 'mutation'
+    # # DATA_PATH= "sample_data/ft/{}".format(KMER)
+    # DATA_PATH = "data/seq/201/6/train"
+    # OUTPUT_PATH="ft/{}".format(MODEL_NAME)
+    # PREDICTION_PATH = "result/{}".format(MODEL_NAME)
+
+    # args = parser.parse_args(
+    #     [
+    #         "--model_type",  "dna",
+    #         "--tokenizer_name", "dna{}".format(KMER),
+    #         "--model_name_or_path", "{}".format(MODEL_PATH),
+    #         "--task_name", "dnamutation",
+    #         "--do_train",
+    #         "--do_eval",
+    #         "--data_dir", "{}".format(DATA_PATH),
+    #         "--max_seq_length", "300",
+    #         "--per_gpu_eval_batch_size", "32",
+    #         "--per_gpu_train_batch_size", "32",
+    #         "--learning_rate", "2e-4",
+    #         "--num_train_epochs", "10.0",
+    #         "--output_dir", "{}".format(OUTPUT_PATH), 
+    #         "--evaluate_during_training",
+    #         "--logging_steps", "100",
+    #         "--save_steps", "4000",
+    #         "--warmup_percent", "0.1",
+    #         "--hidden_dropout_prob", "0.1",
+    #         "--overwrite_output",
+    #         "--weight_decay", "0.01",
+    #         "--n_process", "8"
+    #     ]
+    # )
+
+
+    """
+    predict debug
+    """
+
+
     KMER=6
-    MODEL_PATH="ft/6"
+    MODEL_NAME = 'mutation'
+    MODEL_PATH="ft/{}".format(MODEL_NAME)
     # DATA_PATH= "sample_data/ft/{}".format(KMER)
-    DATA_PATH = "data/seq/201/6"
-    OUTPUT_PATH="ft/{}".format(KMER)
+    DATA_PATH = "data/seq/201/6/test"
+    OUTPUT_PATH="ft/{}".format(MODEL_NAME)
+    PREDICTION_PATH = "result/{}".format(MODEL_NAME)
 
     args = parser.parse_args(
         [
@@ -995,23 +1037,13 @@ def main():
             "--tokenizer_name", "dna{}".format(KMER),
             "--model_name_or_path", "{}".format(MODEL_PATH),
             "--task_name", "dnamutation",
-            "--do_train",
-            "--do_eval",
+            "--do_predict",
             "--data_dir", "{}".format(DATA_PATH),
             "--max_seq_length", "300",
-            "--per_gpu_eval_batch_size", "32",
-            "--per_gpu_train_batch_size", "32",
-            "--learning_rate", "2e-4",
-            "--num_train_epochs", "5.0",
+            "--per_gpu_eval_batch_size", "128",
             "--output_dir", "{}".format(OUTPUT_PATH), 
-            "--evaluate_during_training",
-            "--logging_steps", "100",
-            "--save_steps", "4000",
-            "--warmup_percent", "0.1",
-            "--hidden_dropout_prob", "0.1",
-            "--overwrite_output",
-            "--weight_decay", "0.01",
-            "--n_process", "8"
+            "--predict_dir",  "{}".format(PREDICTION_PATH),
+            "--n_process", "48"
         ]
     )
 
